@@ -27,7 +27,7 @@ with DAG(
     default_args={
         "owner": "user",
         "depends_on_past": False,
-        "email": ["otzslayer@gmail.com"],
+        "email": ["821jys@gmail.com"],
         "on_failure_callback": failure_callback,
         "on_success_callback": success_callback,
     },
@@ -37,10 +37,17 @@ with DAG(
     catchup=False,
     tags=["lgcns", "mlops"],
 ) as dag:
-    # TODO: 코드 작성
+    # 실습: 코드 작성
     # 아래 Task를 적절한 Operator를 사용하여 구현
     
-    data_extract = EmptyOperator(task_id="data_extraction")
+    # data_extract = EmptyOperator(task_id="data_extraction")
+    data_extract = SQLExecuteQueryOperator(
+        task_id="data_extraction",
+        conn_id=conn_id,
+        sql=read_sql_file(sql_file_path),
+        split_statements=True,
+        # autocommit=False
+    )
 
     data_preprocessing = EmptyOperator(task_id="data_preprocessing")
 
